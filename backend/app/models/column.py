@@ -23,3 +23,9 @@ class BoardColumn(Base):
         "Board",
         back_populates="columns",
     )
+
+    cards = relationship(
+        "Card",
+        back_populates="column",
+        cascade="all, delete-orphan",
+    )
