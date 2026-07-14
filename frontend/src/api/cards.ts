@@ -39,3 +39,23 @@ export async function moveCard(
 
     return response.data;
 }
+
+export async function updateCard(
+    cardId: number,
+    title: string,
+    description: string,
+) {
+    const response = await api.patch(
+        `/cards/${cardId}`,
+        {
+            title,
+            description,
+        }
+    );
+
+    return response.data;
+}
+
+export async function deleteCard(cardId: number) {
+    await api.delete(`/cards/${cardId}`);
+}

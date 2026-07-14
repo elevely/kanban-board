@@ -11,16 +11,19 @@ interface Props {
         columnId: number,
         title: string,
     ) => Promise<void>;
+
+    onUpdateCard: (
+        cardId: number,
+        title: string,
+        description: string,
+    ) => Promise<void>;
 }
 
 export default function ColumnView({
     column,
     onCreateCard,
+    onUpdateCard,
 }: Props) {
-        console.log("ColumnView props:", {
-        column,
-        onCreateCard,
-    });
     const { setNodeRef } = useDroppable({
         id: column.id,
     });
@@ -99,6 +102,7 @@ export default function ColumnView({
                 <CardView
                     key={card.id}
                     card={card}
+                    onUpdateCard={onUpdateCard}
                 />
             ))}
         </div>

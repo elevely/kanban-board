@@ -108,6 +108,7 @@ export default function BoardPage() {
                             key={column.id}
                             column={column}
                             onCreateCard={handleCreateCard}
+                            onUpdateCard={handleUpdateCard}
                         />
                     ))}
                 </div>
@@ -149,5 +150,12 @@ export default function BoardPage() {
             loadColumns(Number(id));
         }
     }
+
+    async function handleUpdateCard() {
+        if (id) {
+            await loadColumns(Number(id));
+        }
+    }
+
 }
 
