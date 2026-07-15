@@ -107,3 +107,29 @@
 .login-card button:hover {
     opacity: .92;
 }
+
+.auth-switch {
+    margin-top: 24px;
+
+    text-align: center;
+
+    color: #8d8d94;
+
+    font-size: 14px;
+}
+
+.auth-switch span {
+    margin-left: 6px;
+
+    color: #34d399;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.auth-switch span:hover {
+    color: #6ee7b7;
+}

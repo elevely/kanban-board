@@ -57,6 +57,17 @@ export default function LoginPage() {
                 <button onClick={handleLogin}>
                     Sign In
                 </button>
+
+                <p className="auth-switch">
+                    Don't have an account?
+
+                    <span
+                        onClick={() => navigate("/register")}
+                    >
+                        Sign Up
+                    </span>
+                </p>
+
             </div>
         </div>
     );
