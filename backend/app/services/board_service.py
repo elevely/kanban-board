@@ -26,6 +26,29 @@ def get_member(
         .first()
     )
 
+def get_members(
+    db: Session,
+    board_id: int,
+):
+    members = (
+        db.query(BoardMember)
+        .filter(BoardMember.board_id == board_id)
+        .all()
+    )
+
+    result = []
+
+    for member in members:
+        result.append({
+            "id": member.id,
+            "board_id": member.board_id,
+            "user_id": member.user_id,
+            "role": member.role,
+            "username": member.user.username,
+        })
+
+    return result
+
 def create_board(
     db: Session,
     user: User,
@@ -181,17 +204,6 @@ def delete_board(
     db.delete(board)
     db.commit()
 
-def get_members(
-    db: Session,
-    board_id: int,
-):
-    return (
-        db.query(BoardMember)
-        .filter(BoardMember.board_id == board_id)
-        .all()
-    )
-
-
 def add_member(
     db: Session,
     board_id: int,
@@ -265,16 +277,16 @@ def remove_member(
         .first()
     )
 
-    if member.role == "owner":
-        raise HTTPException(
-            status_code=400,
-            detail="Owner cannot be removed",
-        )
-
     if member is None:
         raise HTTPException(
             status_code=404,
             detail="Member not found",
+        )
+    
+    if member.role == "owner":
+        raise HTTPException(
+            status_code=400,
+            detail="Owner cannot be removed",
         )
 
     db.delete(member)

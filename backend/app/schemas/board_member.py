@@ -15,6 +15,7 @@ class BoardMemberResponse(BaseModel):
     board_id: int
     user_id: int
     role: str
+    username: str
 
     class Config:
         from_attributes = True

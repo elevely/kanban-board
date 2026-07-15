@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import type { BoardMember } from "../types/boardMember";
 
+import "../styles/members-modal.css";
+
 import {
     getMembers,
     addMember,
@@ -59,28 +61,33 @@ export default function BoardMembersModal({
     return (
         <div className="modal-overlay">
             <div className="modal">
-                <h2>Board Members</h2>
+                <div className="members-header">
+                    <h2>Board Members</h2>
+                    <p>Manage access and permissions for this board.</p>
+                </div>
 
                 {members.map((member) => (
                     <div
                         key={member.id}
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginBottom: 12,
-                        }}
+                        className="member-row"
                     >
-                        <div>
-                            User #{member.user_id}
+                        <div className="member-info">
+                            <div className="member-avatar">
+                                {member.username.charAt(0).toUpperCase()}
+                            </div>
+
+                            <div>
+                                <div className="member-name">
+                                    {member.username}
+                                </div>
+
+                                <div className="member-id">
+                                    User #{member.user_id}
+                                </div>
+                            </div>
                         </div>
 
-                        <div
-                            style={{
-                                display: "flex",
-                                gap: 10,
-                            }}
-                        >
+                        <div className="member-actions">
                             <select
                                 value={member.role}
                                 onChange={async (
@@ -124,41 +131,36 @@ export default function BoardMembersModal({
                     </div>
                 ))}
 
-                <hr />
+                <div className="members-divider"></div>
 
-                <input
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) =>
-                        setUsername(
-                            e.target.value
-                        )
-                    }
-                />
+                <div className="invite-form">
+                    <input
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) =>
+                            setUsername(
+                                e.target.value
+                            )
+                        }
+                    />
 
-                <select
-                    value={role}
-                    onChange={(e) =>
-                        setRole(e.target.value)
-                    }
-                >
-                    <option value="editor">
-                        Editor
-                    </option>
+                    <select
+                        value={role}
+                        onChange={(e) =>
+                            setRole(e.target.value)
+                        }
+                    >
+                        <option value="editor">
+                            Editor
+                        </option>
 
-                    <option value="viewer">
-                        Viewer
-                    </option>
-                </select>
+                        <option value="viewer">
+                            Viewer
+                        </option>
+                    </select>
+                </div>
 
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 10,
-                        marginTop: 20,
-                    }}
-                >
+                <div className="modal-actions">
                     <button onClick={onClose}>
                         Close
                     </button>

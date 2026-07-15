@@ -1,0 +1,151 @@
+.members-header{
+    margin-bottom:24px;
+}
+
+.members-header h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+    color:#fff;
+}
+
+.members-header p{
+    margin-top:6px;
+    color:rgba(255,255,255,.65);
+    font-size:14px;
+}
+
+.member-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.member-info{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.member-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(20px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+    font-weight:600;
+    font-size:18px;
+}
+
+.member-name{
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+}
+
+.member-id{
+    margin-top:2px;
+    color:rgba(255,255,255,.55);
+    font-size:12px;
+}
+
+.member-actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.member-actions select{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    color:white;
+    padding:8px 12px;
+    border-radius:10px;
+    outline:none;
+}
+
+.member-actions button{
+    background:#ff4d4f;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.member-actions button:hover{
+    opacity:.85;
+}
+
+.members-divider{
+    height:1px;
+    background:rgba(255,255,255,.08);
+    margin:24px 0;
+}
+
+.invite-form{
+    display:flex;
+    gap:12px;
+    margin-bottom:24px;
+}
+
+.invite-form input{
+    flex:1;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    color:white;
+    border-radius:12px;
+    padding:12px 16px;
+    outline:none;
+}
+
+.invite-form input::placeholder{
+    color:rgba(255,255,255,.45);
+}
+
+.invite-form select{
+    width:140px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    color:white;
+    border-radius:12px;
+    padding:12px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+.modal-actions button{
+    padding:12px 22px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.modal-actions button:first-child{
+    background:rgba(255,255,255,.08);
+    color:white;
+}
+
+.modal-actions button:last-child{
+    background:white;
+    color:black;
+    font-weight:600;
+}
+
+.modal-actions button:hover{
+    transform:translateY(-1px);
+}
