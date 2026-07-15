@@ -16,3 +16,8 @@ class User(Base):
         "Board",
         back_populates="owner",
     )
+
+    memberships = relationship(
+        "BoardMember",
+        back_populates="user",
+    )

@@ -11,6 +11,11 @@ from app.schemas.board import (
     BoardResponse,
     BoardUpdate,
 )
+from app.schemas.board_member import (
+    BoardMemberCreate,
+    BoardMemberResponse,
+    BoardMemberUpdate,
+)
 from app.services import board_service
 
 router = APIRouter(
@@ -97,4 +102,88 @@ def delete_board(
         db,
         current_user,
         board_id,
+    )
+
+@router.get(
+    "/{board_id}/members",
+    response_model=List[BoardMemberResponse],
+)
+def get_members(
+    board_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return board_service.get_members(
+        db,
+        board_id,
+    )
+
+
+@router.post(
+    "/{board_id}/members",
+    response_model=BoardMemberResponse,
+)
+def add_member(
+    board_id: int,
+    data: BoardMemberCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    board_service.require_owner(
+        db,
+        board_id,
+        current_user.id,
+    )
+
+    return board_service.add_member(
+        db,
+        board_id,
+        data,
+    )
+
+
+@router.patch(
+    "/{board_id}/members/{user_id}",
+    response_model=BoardMemberResponse,
+)
+def update_member_role(
+    board_id: int,
+    user_id: int,
+    data: BoardMemberUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    board_service.require_owner(
+        db,
+        board_id,
+        current_user.id,
+    )
+
+    return board_service.update_member_role(
+        db,
+        board_id,
+        user_id,
+        data,
+    )
+
+@router.delete(
+    "/{board_id}/members/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def remove_member(
+    board_id: int,
+    user_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    board_service.require_owner(
+        db,
+        board_id,
+        current_user.id,
+    )
+
+    board_service.remove_member(
+        db,
+        board_id,
+        user_id,
     )

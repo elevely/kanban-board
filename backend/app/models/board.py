@@ -29,3 +29,9 @@ class Board(Base):
         back_populates="board",
         cascade="all, delete-orphan",
     )
+
+    members = relationship(
+        "BoardMember",
+        back_populates="board",
+        cascade="all, delete-orphan",
+    )

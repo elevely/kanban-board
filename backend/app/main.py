@@ -7,6 +7,7 @@ from app.models.user import User
 from app.models.board import Board
 from app.models.column import BoardColumn
 from app.models.card import Card
+from app.models.board_member import BoardMember
 
 from app.routers.auth import router as auth_router
 from app.routers.boards import router as boards_router

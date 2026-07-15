@@ -4,17 +4,17 @@ from sqlalchemy.orm import Session
 from app.models.board import Board
 from app.models.column import BoardColumn
 from app.models.user import User
+
 from app.schemas.column import ColumnCreate, ColumnUpdate
+
+from app.services.board_service import get_board, require_editor
 
 
 def create_column(db: Session, user: User, board_id: int, data: ColumnCreate):
-    board = (
-        db.query(Board)
-        .filter(
-            Board.id == board_id,
-            Board.owner_id == user.id,
-        )
-        .first()
+    board = get_board(
+        db,
+        user,
+        board_id,
     )
 
     if board is None:
@@ -22,6 +22,12 @@ def create_column(db: Session, user: User, board_id: int, data: ColumnCreate):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Board not found",
         )
+
+    require_editor(
+        db,
+        board.id,
+        user.id,
+    )
 
     position = len(board.columns)
 
@@ -39,13 +45,10 @@ def create_column(db: Session, user: User, board_id: int, data: ColumnCreate):
 
 
 def get_columns(db: Session, user: User, board_id: int):
-    board = (
-        db.query(Board)
-        .filter(
-            Board.id == board_id,
-            Board.owner_id == user.id,
-        )
-        .first()
+    board = get_board(
+        db,
+        user,
+        board_id,
     )
 
     if board is None:
@@ -62,13 +65,16 @@ def get_columns(db: Session, user: User, board_id: int):
     )
 
 
-def update_column(db: Session, user: User, column_id: int, data: ColumnUpdate):
+def update_column(
+    db: Session,
+    user: User,
+    column_id: int,
+    data: ColumnUpdate,
+):
     column = (
         db.query(BoardColumn)
-        .join(Board)
         .filter(
             BoardColumn.id == column_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -78,6 +84,18 @@ def update_column(db: Session, user: User, column_id: int, data: ColumnUpdate):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Column not found",
         )
+
+    get_board(
+        db,
+        user,
+        column.board_id,
+    )
+
+    require_editor(
+    db,
+    column.board_id,
+    user.id,
+)
 
     column.title = data.title
 
@@ -86,14 +104,15 @@ def update_column(db: Session, user: User, column_id: int, data: ColumnUpdate):
 
     return column
 
-
-def delete_column(db: Session, user: User, column_id: int):
+def delete_column(
+    db: Session,
+    user: User,
+    column_id: int,
+):
     column = (
         db.query(BoardColumn)
-        .join(Board)
         .filter(
             BoardColumn.id == column_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -103,6 +122,18 @@ def delete_column(db: Session, user: User, column_id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Column not found",
         )
+
+    get_board(
+        db,
+        user,
+        column.board_id,
+    )
+
+    require_editor(
+        db,
+        column.board_id,
+        user.id,
+    )
 
     db.delete(column)
     db.commit()

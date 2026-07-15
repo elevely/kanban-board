@@ -5,16 +5,17 @@ from app.models.board import Board
 from app.models.card import Card
 from app.models.column import BoardColumn
 from app.models.user import User
+
 from app.schemas.card import CardCreate, CardUpdate, CardMove
+
+from app.services.board_service import get_board, require_editor
 
 
 def create_card(db: Session, user: User, column_id: int, data: CardCreate):
     column = (
         db.query(BoardColumn)
-        .join(Board)
         .filter(
             BoardColumn.id == column_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -24,6 +25,18 @@ def create_card(db: Session, user: User, column_id: int, data: CardCreate):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Column not found",
         )
+
+    get_board(
+        db,
+        user,
+        column.board_id,
+    )
+
+    require_editor(
+        db,
+        column.board_id,
+        user.id,
+    )
 
     position = len(column.cards)
 
@@ -44,10 +57,8 @@ def create_card(db: Session, user: User, column_id: int, data: CardCreate):
 def get_cards(db: Session, user: User, column_id: int):
     column = (
         db.query(BoardColumn)
-        .join(Board)
         .filter(
             BoardColumn.id == column_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -58,6 +69,12 @@ def get_cards(db: Session, user: User, column_id: int):
             detail="Column not found",
         )
 
+    get_board(
+        db,
+        user,
+        column.board_id,
+    )
+
     return (
         db.query(Card)
         .filter(Card.column_id == column.id)
@@ -66,14 +83,16 @@ def get_cards(db: Session, user: User, column_id: int):
     )
 
 
-def update_card(db: Session, user: User, card_id: int, data: CardUpdate):
+def update_card(
+    db: Session,
+    user: User,
+    card_id: int,
+    data: CardUpdate,
+):
     card = (
         db.query(Card)
-        .join(BoardColumn)
-        .join(Board)
         .filter(
             Card.id == card_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -83,6 +102,18 @@ def update_card(db: Session, user: User, card_id: int, data: CardUpdate):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Card not found",
         )
+
+    get_board(
+        db,
+        user,
+        card.column.board_id,
+    )
+
+    require_editor(
+        db,
+        card.column.board_id,
+        user.id,
+    )
 
     card.title = data.title
     card.description = data.description
@@ -93,14 +124,15 @@ def update_card(db: Session, user: User, card_id: int, data: CardUpdate):
     return card
 
 
-def delete_card(db: Session, user: User, card_id: int):
+def delete_card(
+    db: Session,
+    user: User,
+    card_id: int,
+):
     card = (
         db.query(Card)
-        .join(BoardColumn)
-        .join(Board)
         .filter(
             Card.id == card_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -110,18 +142,32 @@ def delete_card(db: Session, user: User, card_id: int):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Card not found",
         )
+
+    get_board(
+        db,
+        user,
+        card.column.board_id,
+    )
+
+    require_editor(
+        db,
+        card.column.board_id,
+        user.id,
+    )
 
     db.delete(card)
     db.commit()
 
-def move_card(db: Session, user: User, card_id: int, data: CardMove):
+def move_card(
+    db: Session,
+    user: User,
+    card_id: int,
+    data: CardMove,
+):
     card = (
         db.query(Card)
-        .join(BoardColumn)
-        .join(Board)
         .filter(
             Card.id == card_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -132,12 +178,22 @@ def move_card(db: Session, user: User, card_id: int, data: CardMove):
             detail="Card not found",
         )
 
+    get_board(
+        db,
+        user,
+        card.column.board_id,
+    )
+
+    require_editor(
+        db,
+        card.column.board_id,
+        user.id,
+    )
+
     new_column = (
         db.query(BoardColumn)
-        .join(Board)
         .filter(
             BoardColumn.id == data.column_id,
-            Board.owner_id == user.id,
         )
         .first()
     )
@@ -147,6 +203,12 @@ def move_card(db: Session, user: User, card_id: int, data: CardMove):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Column not found",
         )
+
+    get_board(
+        db,
+        user,
+        new_column.board_id,
+    )
 
     card.column_id = new_column.id
     card.position = data.position

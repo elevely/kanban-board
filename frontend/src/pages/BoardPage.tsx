@@ -29,7 +29,7 @@ import type { Board } from "../types/board";
 import EditBoardModal from "../components/EditBoardModal";
 import ColumnView from "../components/ColumnView";
 import Header from "../components/layout/Header";
-
+import BoardMembersModal from "../components/BoardMembersModal";
 
 import "../styles/board-page.css";
 
@@ -41,6 +41,7 @@ export default function BoardPage() {
     const [board, setBoard] = useState<Board | null>(null);
     const [title, setTitle] = useState("");
     const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isMembersOpen, setIsMembersOpen] = useState(false);
 
     useEffect(() => {
         if (!id) return;
@@ -108,12 +109,21 @@ export default function BoardPage() {
                             <h1 className="board-page-title">
                                 {board?.title}
                             </h1>
-                            
+
                             <button
                                 className="edit-board-button"
                                 onClick={() => setIsEditOpen(true)}
                             >
                                 Edit
+                            </button>
+
+                            <button
+                                className="edit-board-button"
+                                onClick={() =>
+                                    setIsMembersOpen(true)
+                                }
+                            >
+                                Members
                             </button>
 
                             <button
@@ -168,6 +178,16 @@ export default function BoardPage() {
             onClose={() => setIsEditOpen(false)}
             onSave={handleUpdateBoard}
         />
+
+        {board && (
+            <BoardMembersModal
+                boardId={board.id}
+                open={isMembersOpen}
+                onClose={() =>
+                    setIsMembersOpen(false)
+                }
+            />
+        )}
 
         </>
     );
