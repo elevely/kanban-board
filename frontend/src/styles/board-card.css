@@ -1,0 +1,85 @@
+.board-card {
+    width: 100%;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    background: #18181b;
+
+    border: 1px solid #2d2d31;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.22);
+}
+
+.board-card:hover {
+    transform: translateY(-4px);
+
+    background: #1d1d21;
+
+    border-color: #3d3d43;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.35);
+}
+
+.board-card__title {
+    font-size: 26px;
+
+    font-weight: 600;
+
+    color: white;
+}
+
+.board-card__description {
+    margin-top: 18px;
+
+    color: #9f9fa7;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+}
+
+.board-card__footer {
+    margin-top: 48px;
+
+    display: flex;
+
+    justify-content: flex-end;
+}
+
+.board-card__arrow {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #242428;
+
+    color: white;
+
+    transition: .2s;
+}
+
+.board-card:hover .board-card__arrow {
+    background: #34d399;
+
+    color: black;
+}

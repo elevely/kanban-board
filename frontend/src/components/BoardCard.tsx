@@ -1,3 +1,5 @@
+import "./../styles/board-card.css";
+
 import { useNavigate } from "react-router-dom";
 
 import type { Board } from "../types/board";
@@ -11,18 +13,22 @@ export default function BoardCard({ board }: Props) {
 
     return (
         <div
+            className="board-card"
             onClick={() => navigate(`/boards/${board.id}`)}
-            style={{
-                background: "#1e293b",
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 20,
-                cursor: "pointer",
-            }}
         >
-            <h2>{board.title}</h2>
+            <h2 className="board-card__title">
+                {board.title}
+            </h2>
 
-            <p>{board.description}</p>
+            <p className="board-card__description">
+                {board.description || "No description"}
+            </p>
+
+            <div className="board-card__footer">
+                <div className="board-card__arrow">
+                    →
+                </div>
+            </div>
         </div>
     );
 }
