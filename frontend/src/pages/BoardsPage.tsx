@@ -6,8 +6,12 @@ import type { Board } from "../types/board";
 
 import BoardCard from "../components/BoardCard";
 
+import "../styles/boards-page.css";
+
 export default function BoardsPage() {
     const [boards, setBoards] = useState<Board[]>([]);
+
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -36,75 +40,85 @@ export default function BoardsPage() {
     }
 
     return (
-        <div
-            style={{
-                maxWidth: 900,
-                margin: "40px auto",
-                color: "white",
-            }}
-        >
-            <h1
-                style={{
-                    marginBottom: 30,
-                }}
-            >
-                My Boards
-            </h1>
+        <div className="boards-page">
+            <div className="boards-header">
+                <h1 className="boards-title">
+                    My Boards
+                </h1>
 
-            <div
-                style={{
-                    background: "#1e293b",
-                    padding: 20,
-                    borderRadius: 12,
-                    marginBottom: 30,
-                }}
-            >
-                <input
-                    placeholder="Board title"
-                    value={title}
-                    onChange={(e) =>
-                        setTitle(e.target.value)
-                    }
-                    style={{
-                        width: "100%",
-                        padding: 10,
-                        marginBottom: 10,
-                    }}
-                />
+                <p className="boards-subtitle">
+                    Organize your projects in one place.
+                </p>
+            </div>
 
-                <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) =>
-                        setDescription(e.target.value)
-                    }
-                    style={{
-                        width: "100%",
-                        padding: 10,
-                        marginBottom: 10,
-                    }}
-                />
-
-                <button
-                    onClick={handleCreateBoard}
-                    style={{
-                        padding: "10px 20px",
-                        background: "#3b82f6",
-                        color: "white",
-                        border: "none",
-                        borderRadius: 8,
-                    }}
+            <div className="boards-toolbar">
+                <button 
+                    className="new-board-button"
+                    onClick={() => setIsCreateOpen(true)}    
                 >
-                    Create Board
+                    + New Board
                 </button>
             </div>
 
-            {boards.map((board) => (
-                <BoardCard
-                    key={board.id}
-                    board={board}
-                />
-            ))}
+            <h2 className="projects-title">
+                Projects
+            </h2>
+
+            <div className="boards-grid">
+                {boards.map((board) => (
+                    <BoardCard
+                        key={board.id}
+                        board={board}
+                    />
+                ))}
+            </div>
+
+            {isCreateOpen && (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <h2>Create Board</h2>
+
+                    <input
+                        placeholder="Board title"
+                        value={title}
+                        onChange={(e) =>
+                            setTitle(e.target.value)
+                        }
+                    />
+
+                    <textarea
+                        placeholder="Description"
+                        value={description}
+                        onChange={(e) =>
+                            setDescription(e.target.value)
+                        }
+                    />
+
+                    <div className="modal-actions">
+                        <button
+                            className="modal-cancel"
+                            onClick={() =>
+                                setIsCreateOpen(false)
+                            }
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            className="modal-create"
+                            onClick={async () => {
+                                await handleCreateBoard();
+
+                                setIsCreateOpen(false);
+                            }}
+                        >
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
+
         </div>
     );
 }

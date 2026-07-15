@@ -1,0 +1,263 @@
+.boards-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+}
+
+.boards-header {
+    margin-bottom: 48px;
+}
+
+.boards-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: white;
+}
+
+.boards-subtitle {
+    margin-top: 12px;
+
+    color: #8d8d94;
+
+    font-size: 18px;
+}
+
+.create-board {
+    margin-bottom: 48px;
+
+    padding: 24px;
+
+    border-radius: 20px;
+
+    background: #18181b;
+
+    border: 1px solid #2d2d31;
+
+    max-width: 640px;
+}
+
+.create-board h2 {
+    font-size: 24px;
+
+    margin-bottom: 18px;
+
+    font-weight: 600;
+}
+
+.create-board input,
+.create-board textarea {
+    width: 100%;
+
+    margin-bottom: 18px;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    border: 1px solid #343438;
+
+    background: #111112;
+
+    color: white;
+
+    outline: none;
+}
+
+.create-board textarea {
+    resize: vertical;
+
+    min-height: 120px;
+}
+
+.create-board button {
+    padding: 14px 28px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: #34d399;
+
+    color: black;
+
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+.create-board button:hover {
+    opacity: .9;
+}
+
+.projects-title {
+    margin-bottom: 28px;
+
+    font-size: 32px;
+
+    font-weight: 600;
+}
+
+.boards-grid {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+
+    gap: 28px;
+}
+
+.boards-toolbar {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 48px;
+}
+
+.new-board-button {
+    padding: 14px 22px;
+
+    border: 1px solid #2d2d31;
+
+    border-radius: 14px;
+
+    background: #18181b;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+.new-board-button:hover {
+    background: #202024;
+
+    border-color: #3b3b40;
+}
+
+.new-board-button {
+    padding: 14px 22px;
+
+    border: 1px solid #2d2d31;
+
+    border-radius: 14px;
+
+    background: #18181b;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition:
+        background .2s,
+        border-color .2s,
+        color .2s,
+        transform .2s,
+        box-shadow .2s;
+}
+
+.new-board-button:hover {
+    transform: translateY(-2px);
+
+    background: rgba(52, 211, 153, .12);
+
+    border-color: #34d399;
+
+    color: #34d399;
+
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, .08);
+}
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, .55);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    backdrop-filter: blur(6px);
+}
+
+.modal {
+    width: 520px;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    background: #18181b;
+
+    border: 1px solid #2d2d31;
+}
+
+.modal h2 {
+    margin-bottom: 24px;
+
+    font-size: 28px;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+
+    margin-bottom: 16px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    border: 1px solid #343438;
+
+    background: #111112;
+
+    color: white;
+}
+
+.modal textarea {
+    min-height: 120px;
+
+    resize: vertical;
+}
+
+.modal-actions {
+    margin-top: 24px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+.modal-cancel,
+.modal-create {
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    border: none;
+
+    font-weight: 600;
+}
+
+.modal-cancel {
+    background: #242428;
+
+    color: white;
+}
+
+.modal-create {
+    background: #34d399;
+
+    color: black;
+}
