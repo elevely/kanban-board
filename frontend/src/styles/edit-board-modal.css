@@ -1,0 +1,174 @@
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: rgba(0,0,0,.65);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 1000;
+}
+
+.edit-modal {
+    width: 560px;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    background: #18181b;
+
+    border: 1px solid #2d2d31;
+
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+
+.edit-modal h2 {
+    margin-bottom: 28px;
+
+    font-size: 30px;
+
+    color: white;
+}
+
+.edit-modal input,
+.edit-modal textarea {
+    width: 100%;
+
+    padding: 16px;
+
+    margin-bottom: 18px;
+
+    border-radius: 14px;
+
+    border: 1px solid #343438;
+
+    background: #111112;
+
+    color: white;
+
+    outline: none;
+
+    transition: .2s;
+}
+
+.edit-modal input:focus,
+.edit-modal textarea:focus {
+    border-color: #34d399;
+}
+
+.edit-modal-footer {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+.modal-button {
+    padding: 12px 22px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.modal-cancel {
+    background: #242428;
+
+    color: white;
+}
+
+.modal-cancel:hover {
+    background: #2d2d31;
+}
+
+.modal-save {
+    background: #34d399;
+
+    color: black;
+}
+
+.modal-save:hover {
+    opacity: .92;
+}
+
+.edit-board-button {
+    padding: 6px 12px;
+
+    border: 1px solid #2d2d31;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #8d8d94;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.edit-board-button:hover {
+    border-color: #34d399;
+
+    color: #34d399;
+
+    background: rgba(52,211,153,.08);
+}
+
+.edit-board-button,
+.delete-board-button {
+    min-width: 72px;
+
+    height: 38px;
+
+    padding: 0 16px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #8d8d94;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.edit-board-button:hover {
+    color: #34d399;
+
+    background: rgba(52,211,153,.08);
+}
+
+.delete-board-button:hover {
+    color: #ef4444;
+
+    background: rgba(239,68,68,.08);
+}

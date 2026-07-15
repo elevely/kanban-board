@@ -89,3 +89,48 @@
 
     padding-bottom: 12px;
 }
+
+.edit-board-button {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #8d8d94;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.edit-board-button:hover {
+    background: #242428;
+
+    color: #34d399;
+}
+
+.delete-board-button {
+    padding: 8px 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #8d8d94;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.delete-board-button:hover {
+    color: #ef4444;
+
+    background: rgba(239,68,68,.08);
+}

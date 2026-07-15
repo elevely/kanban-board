@@ -1,31 +1,51 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+    useNavigate,
+    useParams,
+} from "react-router-dom";
 import {
     DndContext,
     type DragEndEvent,
 } from "@dnd-kit/core";
 
-import { getColumns, createColumn } from "../api/columns";
 import { moveCard } from "../api/cards";
 import { getCards } from "../api/cards";
 import { createCard } from "../api/cards";
+import {
+    getColumns,
+    createColumn,
+    updateColumn,
+    deleteColumn,
+} from "../api/columns";
+import {
+    getBoard,
+    updateBoard,
+    deleteBoard,
+} from "../api/boards";
 
 import type { BoardColumn } from "../types/boardColumn";
+import type { Board } from "../types/board";
 
+import EditBoardModal from "../components/EditBoardModal";
 import ColumnView from "../components/ColumnView";
+import Header from "../components/layout/Header";
+
 
 import "../styles/board-page.css";
-import Header from "../components/layout/Header";
 
 export default function BoardPage() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [columns, setColumns] = useState<BoardColumn[]>([]);
+    const [board, setBoard] = useState<Board | null>(null);
     const [title, setTitle] = useState("");
+    const [isEditOpen, setIsEditOpen] = useState(false);
 
     useEffect(() => {
         if (!id) return;
 
+        loadBoard(Number(id));
         loadColumns(Number(id));
     }, [id]);
 
@@ -44,6 +64,12 @@ export default function BoardPage() {
         }
 
         setColumns(boardColumns);
+    }
+
+    async function loadBoard(boardId: number) {
+        const data = await getBoard(boardId);
+
+        setBoard(data);
     }
 
     async function handleCreateColumn() {
@@ -72,12 +98,34 @@ export default function BoardPage() {
             <div className="board-page">
                 <div className="board-page-header">
                     <div>
-                        <h1 className="board-page-title">
-                            Board #{id}
-                        </h1>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 14,
+                            }}
+                        >
+                            <h1 className="board-page-title">
+                                {board?.title}
+                            </h1>
+                            
+                            <button
+                                className="edit-board-button"
+                                onClick={() => setIsEditOpen(true)}
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                className="delete-board-button"
+                                onClick={handleDeleteBoard}
+                            >
+                                Delete
+                            </button>
+                        </div>
 
                         <p className="board-page-subtitle">
-                            Manage your workflow.
+                            {board?.description || "Manage your workflow."}
                         </p>
                     </div>
 
@@ -106,11 +154,21 @@ export default function BoardPage() {
                                 column={column}
                                 onCreateCard={handleCreateCard}
                                 onUpdateCard={handleUpdateCard}
+                                onRenameColumn={handleRenameColumn}
+                                onDeleteColumn={handleDeleteColumn}
                             />
                         ))}
                     </div>
                 </DndContext>
             </div>
+
+        <EditBoardModal
+            board={board}
+            open={isEditOpen}
+            onClose={() => setIsEditOpen(false)}
+            onSave={handleUpdateBoard}
+        />
+
         </>
     );
 
@@ -155,5 +213,57 @@ export default function BoardPage() {
         }
     }
 
+    async function handleUpdateBoard(
+        title: string,
+        description: string,
+    ) {
+        if (!board) return;
+
+        const updated = await updateBoard(
+            board.id,
+            title,
+            description,
+        );
+
+        setBoard(updated);
+    }
+
+    async function handleRenameColumn(
+        columnId: number,
+        title: string,
+    ) {
+        await updateColumn(
+            columnId,
+            title,
+        );
+
+        if (id) {
+            await loadColumns(Number(id));
+        }
+    }
+
+    async function handleDeleteColumn(
+        columnId: number,
+    ) {
+        await deleteColumn(columnId);
+
+        if (id) {
+            await loadColumns(Number(id));
+        }
+    }
+
+    async function handleDeleteBoard() {
+        if (!board) return;
+
+        const confirmed = window.confirm(
+            "Delete this board?\n\nAll columns and cards will also be deleted."
+        );
+
+        if (!confirmed) return;
+
+        await deleteBoard(board.id);
+
+        navigate("/boards");
+    }
 }
 

@@ -21,3 +21,21 @@ export async function createColumn(
 
     return response.data;
 }
+
+export async function updateColumn(
+    id: number,
+    title: string,
+) {
+    const response = await api.patch(
+        `/columns/${id}`,
+        {
+            title,
+        }
+    );
+
+    return response.data;
+}
+
+export async function deleteColumn(id: number) {
+    await api.delete(`/columns/${id}`);
+}
