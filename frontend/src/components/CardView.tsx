@@ -15,6 +15,8 @@ import "../styles/card.css";
 interface Props {
     card: Card;
 
+    canEdit: boolean;
+
     onUpdateCard: (
         cardId: number,
         title: string,
@@ -24,6 +26,7 @@ interface Props {
 
 export default function CardView({
     card,
+    canEdit,
     onUpdateCard,
 }: Props) {
     const [open, setOpen] = useState(false);
@@ -71,50 +74,37 @@ export default function CardView({
     return (
         <>
             <div
-
                 ref={setNodeRef}
-
-                {...listeners}
-
+                {...(canEdit ? listeners : {})}
                 {...attributes}
-
-                onDoubleClick={() => setOpen(true)}
-
+                onDoubleClick={() => {
+                    if (canEdit) {
+                        setOpen(true);
+                    }
+                }}   
                 style={{
-
                     transform: style.transform,
-
                 }}
-
                 className="card"
-
             >
-
                 <h3 className="card-title">
-
                     {card.title}
-
                 </h3>
-
                 {card.description && (
-
                     <p className="card-description">
-
                         {card.description}
-
                     </p>
-
                 )}
-
             </div>
-
-            <EditCardModal
-                card={card}
-                open={open}
-                onClose={() => setOpen(false)}
-                onSave={handleSave}
-                onDelete={handleDelete}
-            />
+            {canEdit && (
+                <EditCardModal
+                    card={card}
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                />
+            )}
         </>
     );
 }

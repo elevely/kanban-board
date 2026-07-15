@@ -16,6 +16,7 @@ class BoardResponse(BaseModel):
     title: str
     description: Optional[str]
     owner_id: int
+    my_role: Optional[str] = None
 
     class Config:
         from_attributes = True

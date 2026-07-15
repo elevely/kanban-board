@@ -18,3 +18,6 @@ class BoardMemberResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class MyRoleResponse(BaseModel):
+    role: str

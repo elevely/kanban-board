@@ -110,28 +110,32 @@ export default function BoardPage() {
                                 {board?.title}
                             </h1>
 
-                            <button
-                                className="edit-board-button"
-                                onClick={() => setIsEditOpen(true)}
-                            >
-                                Edit
-                            </button>
+                            {board?.my_role === "owner" && (
+                                <button
+                                    className="edit-board-button"
+                                    onClick={() => setIsEditOpen(true)}
+                                >
+                                    Edit
+                                </button>
+                            )}
 
-                            <button
-                                className="edit-board-button"
-                                onClick={() =>
-                                    setIsMembersOpen(true)
-                                }
-                            >
-                                Members
-                            </button>
+                            {board?.my_role === "owner" && (
+                                <button
+                                    className="edit-board-button"
+                                    onClick={() => setIsMembersOpen(true)}
+                                >
+                                    Members
+                                </button>
+                            )}
 
-                            <button
-                                className="delete-board-button"
-                                onClick={handleDeleteBoard}
-                            >
-                                Delete
-                            </button>
+                            {board?.my_role === "owner" && (
+                                <button
+                                    className="delete-board-button"
+                                    onClick={handleDeleteBoard}
+                                >
+                                    Delete
+                                </button>
+                            )}
                         </div>
 
                         <p className="board-page-subtitle">
@@ -139,7 +143,8 @@ export default function BoardPage() {
                         </p>
                     </div>
 
-                    <div className="add-column">
+                    {board?.my_role !== "viewer" && (
+                        <div className="add-column">
                         <input
                             placeholder="Column title"
                             value={title}
@@ -154,18 +159,23 @@ export default function BoardPage() {
                             + New Column
                         </button>
                     </div>
+                    )}
                 </div>
 
                 <DndContext onDragEnd={handleDragEnd}>
                     <div className="columns">
                         {columns.map((column) => (
                             <ColumnView
-                                key={column.id}
-                                column={column}
-                                onCreateCard={handleCreateCard}
-                                onUpdateCard={handleUpdateCard}
-                                onRenameColumn={handleRenameColumn}
-                                onDeleteColumn={handleDeleteColumn}
+                                canEdit={
+                                    board?.my_role === "owner" ||
+                                    board?.my_role === "editor"
+                                }
+                                    key={column.id}
+                                    column={column}
+                                    onCreateCard={handleCreateCard}
+                                    onUpdateCard={handleUpdateCard}
+                                    onRenameColumn={handleRenameColumn}
+                                    onDeleteColumn={handleDeleteColumn}
                             />
                         ))}
                     </div>

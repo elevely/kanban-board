@@ -54,7 +54,7 @@ def create_board(
 
 
 def get_boards(db: Session, user: User):
-    return (
+    boards = (
         db.query(Board)
         .join(
             BoardMember,
@@ -65,6 +65,20 @@ def get_boards(db: Session, user: User):
         )
         .all()
     )
+
+    for board in boards:
+        member = (
+            db.query(BoardMember)
+            .filter(
+                BoardMember.board_id == board.id,
+                BoardMember.user_id == user.id,
+            )
+            .first()
+        )
+
+        board.my_role = member.role
+
+    return boards
 
 
 def get_board(
@@ -95,6 +109,8 @@ def get_board(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Board not found",
         )
+
+    board.my_role = member.role
 
     return board
 
@@ -286,3 +302,27 @@ def require_editor(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have permission",
         )
+
+def get_my_role(
+    db: Session,
+    board_id: int,
+    user_id: int,
+):
+    member = (
+        db.query(BoardMember)
+        .filter(
+            BoardMember.board_id == board_id,
+            BoardMember.user_id == user_id,
+        )
+        .first()
+    )
+
+    if member is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Member not found",
+        )
+
+    return {
+        "role": member.role,
+    }

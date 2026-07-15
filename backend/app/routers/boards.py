@@ -15,6 +15,7 @@ from app.schemas.board_member import (
     BoardMemberCreate,
     BoardMemberResponse,
     BoardMemberUpdate,
+    MyRoleResponse,
 )
 from app.services import board_service
 
@@ -54,7 +55,6 @@ def get_boards(
         current_user,
     )
 
-
 @router.get(
     "/{board_id}",
     response_model=BoardResponse,
@@ -68,6 +68,21 @@ def get_board(
         db,
         current_user,
         board_id,
+    )
+
+@router.get(
+    "/{board_id}/my-role",
+    response_model=MyRoleResponse,
+)
+def get_my_role(
+    board_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return board_service.get_my_role(
+        db,
+        board_id,
+        current_user.id,
     )
 
 

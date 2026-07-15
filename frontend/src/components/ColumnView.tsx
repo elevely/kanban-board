@@ -10,6 +10,7 @@ import EditColumnModal from "./EditColumnModal";
 import "../styles/column.css";
 
 interface Props {
+    canEdit: boolean;
     column: BoardColumn;
     onCreateCard: (
         columnId: number,
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export default function ColumnView({
+    canEdit,
     column,
     onCreateCard,
     onUpdateCard,
@@ -73,27 +75,31 @@ export default function ColumnView({
                     {column.cards.length}
                 </div>
 
-                <button
-                    className="column-action"
-                    onClick={() => setIsEditOpen(true)}
-                >
-                    Edit
-                </button>
+                {canEdit && (
+                    <>
+                        <button
+                            className="column-action"
+                            onClick={() => setIsEditOpen(true)}
+                        >
+                            Edit
+                        </button>
 
-                <button
-                    className="column-action delete"
-                    onClick={async () => {
-                        const confirmed = window.confirm(
-                            "Delete this column?\n\nAll cards in this column will also be deleted."
-                        );
+                        <button
+                            className="column-action delete"
+                            onClick={async () => {
+                                const confirmed = window.confirm(
+                                    "Delete this column?\n\nAll cards in this column will also be deleted."
+                                );
 
-                        if (!confirmed) return;
+                                if (!confirmed) return;
 
-                        await onDeleteColumn(column.id);
-                    }}
-                >
-                    Delete
-                </button>
+                                await onDeleteColumn(column.id);
+                            }}
+                        >
+                            Delete
+                        </button>
+                    </>
+                )}
             </div>
         </div>
 
@@ -101,61 +107,68 @@ export default function ColumnView({
                 <CardView
                     key={card.id}
                     card={card}
+                    canEdit={canEdit}
                     onUpdateCard={onUpdateCard}
                 />
             ))}
 
-            {isCreating ? (
-                <div className="column-create">
-                    <input
-                        placeholder="Card title"
-                        value={title}
-                        onChange={(e) =>
-                            setTitle(e.target.value)
-                        }
-                        autoFocus
-                    />
+            {canEdit && (
+                <>
+                    {isCreating ? (
+                        <div className="column-create">
+                            <input
+                                placeholder="Card title"
+                                value={title}
+                                onChange={(e) =>
+                                    setTitle(e.target.value)
+                                }
+                                autoFocus
+                            />
 
-                    <div className="column-create-actions">
-                        <button
-                            onClick={handleCreateCard}
-                        >
-                            Create
-                        </button>
+                            <div className="column-create-actions">
+                                <button
+                                    onClick={handleCreateCard}
+                                >
+                                    Create
+                                </button>
 
+                                <button
+                                    className="cancel-button"
+                                    onClick={() => {
+                                        setIsCreating(false);
+                                        setTitle("");
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
                         <button
-                            className="cancel-button"
-                            onClick={() => {
-                                setIsCreating(false);
-                                setTitle("");
-                            }}
+                            className="new-card-button"
+                            onClick={() => setIsCreating(true)}
                         >
-                            Cancel
+                            + New Card
                         </button>
-                    </div>
-                </div>
-            ) : (
-                <button
-                    className="new-card-button"
-                    onClick={() => setIsCreating(true)}
-                >
-                    + New Card
-                </button>
+                    )}
+                </>
             )}
 
-            <EditColumnModal
-                open={isEditOpen}
-                title={column.title}
-                onClose={() => setIsEditOpen(false)}
-                onSave={async (title) => {
-                    await onRenameColumn(
-                        column.id,
-                        title,
-                    );
+            {canEdit && (
+                <EditColumnModal
+                    open={isEditOpen}
+                    title={column.title}
+                    onClose={() => setIsEditOpen(false)}
+                    onSave={async (title) => {
+                        await onRenameColumn(
+                            column.id,
+                            title,
+                        );
 
-                    setIsEditOpen(false);
-                }}
-            />
+                        setIsEditOpen(false);
+                    }}
+                />
+            )}
 
         </div>
     );
