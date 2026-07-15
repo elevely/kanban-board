@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import type { Card } from "../types/card";
 
+import "../styles/edit-card-modal.css";
+
 interface Props {
     card: Card;
     open: boolean;
@@ -45,26 +47,8 @@ export default function EditCardModal({
     }
 
     return (
-        <div
-            style={{
-                position: "fixed",
-                inset: 0,
-                background: "rgba(0,0,0,0.6)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 999,
-            }}
-        >
-            <div
-                style={{
-                    width: 500,
-                    background: "#1e293b",
-                    borderRadius: 12,
-                    padding: 24,
-                    color: "white",
-                }}
-            >
+        <div className="modal-overlay">
+            <div className="edit-modal">
                 <h2>Edit Card</h2>
 
                 <input
@@ -72,12 +56,6 @@ export default function EditCardModal({
                     onChange={(e) =>
                         setTitle(e.target.value)
                     }
-                    style={{
-                        width: "100%",
-                        padding: 10,
-                        marginTop: 20,
-                        marginBottom: 15,
-                    }}
                 />
 
                 <textarea
@@ -86,39 +64,31 @@ export default function EditCardModal({
                         setDescription(e.target.value)
                     }
                     rows={6}
-                    style={{
-                        width: "100%",
-                        padding: 10,
-                        resize: "vertical",
-                    }}
                 />
 
-                <button
-                    onClick={handleDelete}
-                    style={{
-                        marginRight: "auto",
-                        background: "#dc2626",
-                        color: "white",
-                    }}
-                >
-                    Delete
-                </button>
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 10,
-                        marginTop: 20,
-                    }}
-                >
-                    <button onClick={onClose}>
-                        Cancel
+                <div className="edit-modal-footer">
+                    <button
+                        className="modal-button modal-delete"
+                        onClick={handleDelete}
+                    >
+                        Delete
                     </button>
 
-                    <button onClick={handleSave}>
-                        Save
-                    </button>
+                    <div className="edit-modal-actions">
+                        <button
+                            className="modal-button modal-cancel"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            className="modal-button modal-save"
+                            onClick={handleSave}
+                        >
+                            Save
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -14,6 +14,9 @@ import type { BoardColumn } from "../types/boardColumn";
 
 import ColumnView from "../components/ColumnView";
 
+import "../styles/board-page.css";
+import Header from "../components/layout/Header";
+
 export default function BoardPage() {
     const { id } = useParams();
 
@@ -63,57 +66,52 @@ export default function BoardPage() {
     }
 
     return (
-        <div
-            style={{
-                padding: 40,
-                color: "white",
-            }}
-        >
-            <h1>Board #{id}</h1>
+        <>
+            <Header />
 
-            <div
-                style={{
-                    marginTop: 30,
-                    marginBottom: 30,
-                }}
-            >
-                <input
-                    placeholder="Column title"
-                    value={title}
-                    onChange={(e) =>
-                        setTitle(e.target.value)
-                    }
-                    style={{
-                        padding: 10,
-                        marginRight: 10,
-                    }}
-                />
+            <div className="board-page">
+                <div className="board-page-header">
+                    <div>
+                        <h1 className="board-page-title">
+                            Board #{id}
+                        </h1>
 
-                <button onClick={handleCreateColumn}>
-                    Create Column
-                </button>
-            </div>
+                        <p className="board-page-subtitle">
+                            Manage your workflow.
+                        </p>
+                    </div>
 
-            <DndContext onDragEnd={handleDragEnd}>
-                <div
-                    style={{
-                        display: "flex",
-                        gap: 20,
-                        marginTop: 30,
-                        alignItems: "flex-start",
-                    }}
-                >
-                    {columns.map((column) => (
-                        <ColumnView
-                            key={column.id}
-                            column={column}
-                            onCreateCard={handleCreateCard}
-                            onUpdateCard={handleUpdateCard}
+                    <div className="add-column">
+                        <input
+                            placeholder="Column title"
+                            value={title}
+                            onChange={(e) =>
+                                setTitle(e.target.value)
+                            }
                         />
-                    ))}
+
+                        <button
+                            onClick={handleCreateColumn}
+                        >
+                            + New Column
+                        </button>
+                    </div>
                 </div>
-            </DndContext>
-        </div>
+
+                <DndContext onDragEnd={handleDragEnd}>
+                    <div className="columns">
+                        {columns.map((column) => (
+                            <ColumnView
+                                key={column.id}
+                                column={column}
+                                onCreateCard={handleCreateCard}
+                                onUpdateCard={handleUpdateCard}
+                            />
+                        ))}
+                    </div>
+                </DndContext>
+            </div>
+        </>
     );
 
     async function handleCreateCard(

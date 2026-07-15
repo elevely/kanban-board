@@ -1,0 +1,48 @@
+.card {
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    border-radius: 18px;
+
+    background: #202024;
+
+    border: 1px solid #2f2f34;
+
+    cursor: grab;
+
+    transition:
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.card:hover {
+    background: #252529;
+
+    border-color: #3a3a40;
+
+    box-shadow: 0 12px 28px rgba(0,0,0,.22);
+}
+
+.card:active {
+    cursor: grabbing;
+}
+
+.card-title {
+    font-size: 17px;
+
+    font-weight: 600;
+
+    color: white;
+}
+
+.card-description {
+    margin-top: 10px;
+
+    color: #9b9ba3;
+
+    line-height: 1.6;
+
+    font-size: 14px;
+}

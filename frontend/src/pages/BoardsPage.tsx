@@ -6,6 +6,8 @@ import type { Board } from "../types/board";
 
 import BoardCard from "../components/BoardCard";
 
+import Header from "../components/layout/Header";
+
 import "../styles/boards-page.css";
 
 export default function BoardsPage() {
@@ -40,85 +42,89 @@ export default function BoardsPage() {
     }
 
     return (
-        <div className="boards-page">
-            <div className="boards-header">
-                <h1 className="boards-title">
-                    My Boards
-                </h1>
+        <>
+            <Header />
 
-                <p className="boards-subtitle">
-                    Organize your projects in one place.
-                </p>
-            </div>
+            <div className="boards-page">
+                <div className="boards-header">
+                    <h1 className="boards-title">
+                        My Boards
+                    </h1>
 
-            <div className="boards-toolbar">
-                <button 
-                    className="new-board-button"
-                    onClick={() => setIsCreateOpen(true)}    
-                >
-                    + New Board
-                </button>
-            </div>
+                    <p className="boards-subtitle">
+                        Organize your projects in one place.
+                    </p>
+                </div>
 
-            <h2 className="projects-title">
-                Projects
-            </h2>
+                <div className="boards-toolbar">
+                    <button 
+                        className="new-board-button"
+                        onClick={() => setIsCreateOpen(true)}    
+                    >
+                        + New Board
+                    </button>
+                </div>
 
-            <div className="boards-grid">
-                {boards.map((board) => (
-                    <BoardCard
-                        key={board.id}
-                        board={board}
-                    />
-                ))}
-            </div>
+                <h2 className="projects-title">
+                    Projects
+                </h2>
 
-            {isCreateOpen && (
-            <div className="modal-overlay">
-                <div className="modal">
-                    <h2>Create Board</h2>
+                <div className="boards-grid">
+                    {boards.map((board) => (
+                        <BoardCard
+                            key={board.id}
+                            board={board}
+                        />
+                    ))}
+                </div>
 
-                    <input
-                        placeholder="Board title"
-                        value={title}
-                        onChange={(e) =>
-                            setTitle(e.target.value)
-                        }
-                    />
+                {isCreateOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>Create Board</h2>
 
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) =>
-                            setDescription(e.target.value)
-                        }
-                    />
-
-                    <div className="modal-actions">
-                        <button
-                            className="modal-cancel"
-                            onClick={() =>
-                                setIsCreateOpen(false)
+                        <input
+                            placeholder="Board title"
+                            value={title}
+                            onChange={(e) =>
+                                setTitle(e.target.value)
                             }
-                        >
-                            Cancel
-                        </button>
+                        />
 
-                        <button
-                            className="modal-create"
-                            onClick={async () => {
-                                await handleCreateBoard();
+                        <textarea
+                            placeholder="Description"
+                            value={description}
+                            onChange={(e) =>
+                                setDescription(e.target.value)
+                            }
+                        />
 
-                                setIsCreateOpen(false);
-                            }}
-                        >
-                            Create
-                        </button>
+                        <div className="modal-actions">
+                            <button
+                                className="modal-cancel"
+                                onClick={() =>
+                                    setIsCreateOpen(false)
+                                }
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="modal-create"
+                                onClick={async () => {
+                                    await handleCreateBoard();
+
+                                    setIsCreateOpen(false);
+                                }}
+                            >
+                                Create
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )}
+            )}
 
-        </div>
+            </div>
+        </>
     );
 }

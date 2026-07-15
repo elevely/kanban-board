@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { login } from "../api/auth";
 
+import "../styles/login.css";
+
 export default function LoginPage() {
     const navigate = useNavigate();
 
@@ -22,70 +24,38 @@ export default function LoginPage() {
     }
 
     return (
-        <div
-            style={{
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#0f172a",
-            }}
-        >
-            <div
-                style={{
-                    width: 400,
-                    padding: 40,
-                    background: "#1e293b",
-                    borderRadius: 16,
-                }}
-            >
-                <h1
-                    style={{
-                        textAlign: "center",
-                        marginBottom: 30,
-                    }}
-                >
-                    Kanban Board
-                </h1>
+        <div className="login-page">
+            <div className="login-brand">
+                <h1>Flow</h1>
+
+                <p>
+                Simple project management 
+                without distractions.
+                </p>
+            </div>
+
+            <div className="login-card">
+                <h2>Welcome back</h2>
 
                 <input
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) =>
+                        setUsername(e.target.value)
+                    }
                     placeholder="Username"
-                    style={{
-                        width: "100%",
-                        padding: 12,
-                        marginBottom: 15,
-                        borderRadius: 8,
-                    }}
                 />
 
                 <input
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) =>
+                        setPassword(e.target.value)
+                    }
                     type="password"
                     placeholder="Password"
-                    style={{
-                        width: "100%",
-                        padding: 12,
-                        marginBottom: 20,
-                        borderRadius: 8,
-                    }}
                 />
 
-                <button
-                    onClick={handleLogin}
-                    style={{
-                        width: "100%",
-                        padding: 12,
-                        border: "none",
-                        borderRadius: 8,
-                        background: "#3b82f6",
-                        color: "white",
-                        fontSize: 16,
-                    }}
-                >
-                    Login
+                <button onClick={handleLogin}>
+                    Sign In
                 </button>
             </div>
         </div>

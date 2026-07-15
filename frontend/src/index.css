@@ -5,11 +5,23 @@
 }
 
 body {
-  font-family: Inter, system-ui, sans-serif;
-  background: #0f172a;
-  color: white;
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    background: #0f0f10;
+
+    color: white;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 button {
   cursor: pointer;
+}
+
+::selection {
+    background: rgba(52, 211, 153, 0.25);
 }

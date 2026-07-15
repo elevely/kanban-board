@@ -10,6 +10,8 @@ import type { Card } from "../types/card";
 
 import EditCardModal from "./EditCardModal";
 
+import "../styles/card.css";
+
 interface Props {
     card: Card;
 
@@ -69,36 +71,41 @@ export default function CardView({
     return (
         <>
             <div
+
                 ref={setNodeRef}
+
                 {...listeners}
+
                 {...attributes}
+
                 onDoubleClick={() => setOpen(true)}
+
                 style={{
+
                     transform: style.transform,
-                    background: "#334155",
-                    padding: 12,
-                    borderRadius: 8,
-                    marginTop: 12,
-                    cursor: "grab",
+
                 }}
+
+                className="card"
+
             >
-                <h3
-                    style={{
-                        margin: 0,
-                    }}
-                >
+
+                <h3 className="card-title">
+
                     {card.title}
+
                 </h3>
 
                 {card.description && (
-                    <p
-                        style={{
-                            marginTop: 8,
-                        }}
-                    >
+
+                    <p className="card-description">
+
                         {card.description}
+
                     </p>
+
                 )}
+
             </div>
 
             <EditCardModal

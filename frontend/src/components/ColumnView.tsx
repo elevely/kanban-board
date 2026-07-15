@@ -5,6 +5,8 @@ import type { BoardColumn } from "../types/boardColumn";
 
 import CardView from "./CardView";
 
+import "../styles/column.css";
+
 interface Props {
     column: BoardColumn;
     onCreateCard: (
@@ -29,6 +31,7 @@ export default function ColumnView({
     });
 
     const [title, setTitle] = useState("");
+    const [isCreating, setIsCreating] = useState(false);
 
     async function handleCreateCard() {
         if (!title.trim()) return;
@@ -36,67 +39,23 @@ export default function ColumnView({
         await onCreateCard(column.id, title);
 
         setTitle("");
+        setIsCreating(false);
     }
 
     return (
         <div
             ref={setNodeRef}
-            style={{
-                background: "#1e293b",
-                borderRadius: 12,
-                padding: 20,
-                minWidth: 300,
-            }}
+            className="column"
         >
-            <h2
-                style={{
-                    marginTop: 0,
-                    marginBottom: 20,
-                }}
-            >
-                {column.title}
-            </h2>
+            <div className="column-header">
+                <h2 className="column-title">
+                    {column.title}
+                </h2>
 
-            <div
-                style={{
-                    marginBottom: 20,
-                }}
-            >
-                <input
-                    placeholder="Card title"
-                    value={title}
-                    onChange={(e) =>
-                        setTitle(e.target.value)
-                    }
-                    style={{
-                        width: "100%",
-                        padding: 8,
-                        marginBottom: 8,
-                    }}
-                />
-
-                <button
-                    onClick={handleCreateCard}
-                    style={{
-                        width: "100%",
-                        padding: 8,
-                    }}
-                >
-                    Add Card
-                </button>
-            </div>
-
-            {column.cards.length === 0 && (
-                <div
-                    style={{
-                        color: "#94a3b8",
-                        fontSize: 14,
-                        marginBottom: 10,
-                    }}
-                >
-                    Drop cards here
+                <div className="column-count">
+                    {column.cards.length}
                 </div>
-            )}
+            </div>
 
             {column.cards.map((card) => (
                 <CardView
@@ -105,6 +64,44 @@ export default function ColumnView({
                     onUpdateCard={onUpdateCard}
                 />
             ))}
+
+            {isCreating ? (
+                <div className="column-create">
+                    <input
+                        placeholder="Card title"
+                        value={title}
+                        onChange={(e) =>
+                            setTitle(e.target.value)
+                        }
+                        autoFocus
+                    />
+
+                    <div className="column-create-actions">
+                        <button
+                            onClick={handleCreateCard}
+                        >
+                            Create
+                        </button>
+
+                        <button
+                            className="cancel-button"
+                            onClick={() => {
+                                setIsCreating(false);
+                                setTitle("");
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <button
+                    className="new-card-button"
+                    onClick={() => setIsCreating(true)}
+                >
+                    + New Card
+                </button>
+            )}
         </div>
     );
 }
