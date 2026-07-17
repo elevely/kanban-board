@@ -10,6 +10,8 @@ import Header from "../components/layout/Header";
 
 import "../styles/boards-page.css";
 
+import { Search } from "lucide-react";
+
 export default function BoardsPage() {
     const [boards, setBoards] = useState<Board[]>([]);
 
@@ -17,6 +19,14 @@ export default function BoardsPage() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+
+    const [search, setSearch] = useState("");
+
+    const filteredBoards = boards.filter((board) =>
+        board.title
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    );
 
     useEffect(() => {
         loadBoards();
@@ -65,9 +75,24 @@ export default function BoardsPage() {
                     </button>
                 </div>
 
-                <h2 className="projects-title">
-                    Projects
-                </h2>
+                <div className="projects-header">
+                    <h2 className="projects-title">
+                        Projects
+                    </h2>
+
+                    <div className="boards-search">
+                        <button className="search-button">
+                            <Search size={18} />
+                        </button>
+
+                        <input
+                            type="text"
+                            placeholder="Search boards..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+                </div>
 
                 {boards.length === 0 ? (
                     <div className="empty-state">
@@ -85,7 +110,7 @@ export default function BoardsPage() {
                     </div>
                 ) : (
                     <div className="boards-grid">
-                        {boards.map((board) => (
+                        {filteredBoards.map((board) => (
                             <BoardCard
                                 key={board.id}
                                 board={board}

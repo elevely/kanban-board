@@ -308,3 +308,81 @@
     color: #8b8b92;
     max-width: 340px;
 }
+
+.projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 28px;
+}
+
+.boards-search {
+    display: flex;
+    align-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    border: 1px solid transparent;
+
+    transition:
+        width .3s ease,
+        border-color .3s ease,
+        background .3s ease;
+}
+
+.boards-search:hover,
+.boards-search:focus-within {
+    width: 240px;
+
+    background: #18181b;
+
+    border-color: #2d2d31;
+}
+
+.search-button {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    background: transparent;
+
+    color: #8b8b92;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.boards-search input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: white;
+
+    opacity: 0;
+
+    transform: translateX(10px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+
+    font-size: 14px;
+}
+
+.boards-search:hover input,
+.boards-search:focus-within input {
+    opacity: 1;
+
+    transform: translateX(0);
+}
