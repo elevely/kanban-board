@@ -134,3 +134,26 @@
 
     background: rgba(239,68,68,.08);
 }
+
+.back-button {
+    background: transparent;
+    border: none;
+
+    color: #8b8b92;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    margin-bottom: 18px;
+
+    transition: .2s;
+
+    padding: 0;
+}
+
+.back-button:hover {
+    color: #34d399;
+}
+

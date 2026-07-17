@@ -99,6 +99,14 @@ export default function BoardPage() {
             <div className="board-page">
                 <div className="board-page-header">
                     <div>
+
+                        <button
+                            className="back-button"
+                            onClick={() => navigate("/boards")}
+                        >
+                            ← All boards
+                        </button>
+
                         <div
                             style={{
                                 display: "flex",
@@ -141,7 +149,10 @@ export default function BoardPage() {
                         <p className="board-page-subtitle">
                             {board?.description || "Manage your workflow."}
                         </p>
+
                     </div>
+
+                    
 
                     {board?.my_role !== "viewer" && (
                         <div className="add-column">
@@ -163,22 +174,36 @@ export default function BoardPage() {
                 </div>
 
                 <DndContext onDragEnd={handleDragEnd}>
-                    <div className="columns">
-                        {columns.map((column) => (
-                            <ColumnView
-                                canEdit={
-                                    board?.my_role === "owner" ||
-                                    board?.my_role === "editor"
-                                }
-                                    key={column.id}
-                                    column={column}
-                                    onCreateCard={handleCreateCard}
-                                    onUpdateCard={handleUpdateCard}
-                                    onRenameColumn={handleRenameColumn}
-                                    onDeleteColumn={handleDeleteColumn}
-                            />
-                        ))}
+                    {columns.length === 0 ? (
+                        <div className="empty-state">
+                        <div className="empty-icon">
+                            🗂
+                        </div>
+                        <h2>
+                            This board is empty
+                        </h2>
+                        <p>
+                            Create your first column to start organizing tasks.
+                        </p>
                     </div>
+                    ) : (
+                        <div className="columns">
+                            {columns.map((column) => (
+                                <ColumnView
+                                    canEdit={
+                                        board?.my_role === "owner" ||
+                                        board?.my_role === "editor"
+                                    }
+                                        key={column.id}
+                                        column={column}
+                                        onCreateCard={handleCreateCard}
+                                        onUpdateCard={handleUpdateCard}
+                                        onRenameColumn={handleRenameColumn}
+                                        onDeleteColumn={handleDeleteColumn}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </DndContext>
             </div>
 

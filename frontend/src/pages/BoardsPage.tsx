@@ -69,14 +69,30 @@ export default function BoardsPage() {
                     Projects
                 </h2>
 
-                <div className="boards-grid">
-                    {boards.map((board) => (
-                        <BoardCard
-                            key={board.id}
-                            board={board}
-                        />
-                    ))}
-                </div>
+                {boards.length === 0 ? (
+                    <div className="empty-state">
+                        <button
+                            className="empty-plus"
+                            onClick={() => setIsCreateOpen(true)}
+                        >
+                            +
+                        </button>
+                        <h2>No boards yet</h2>
+
+                        <p>
+                            Create your first board to start managing your projects.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="boards-grid">
+                        {boards.map((board) => (
+                            <BoardCard
+                                key={board.id}
+                                board={board}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 {isCreateOpen && (
                 <div className="modal-overlay">
