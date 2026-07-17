@@ -10,7 +10,7 @@ import Header from "../components/layout/Header";
 
 import "../styles/boards-page.css";
 
-import { Search } from "lucide-react";
+import { Search, LayoutGrid, List } from "lucide-react";
 
 export default function BoardsPage() {
     const [boards, setBoards] = useState<Board[]>([]);
@@ -21,6 +21,18 @@ export default function BoardsPage() {
     const [description, setDescription] = useState("");
 
     const [search, setSearch] = useState("");
+
+    const [view, setView] = useState<"grid" | "list">(() => {
+        return (
+            (localStorage.getItem("boards-view") as "grid" | "list") ||
+            "grid"
+        );
+    });
+
+    function changeView(newView: "grid" | "list") {
+        setView(newView);
+        localStorage.setItem("boards-view", newView);
+    }
 
     const filteredBoards = boards.filter((board) =>
         board.title
@@ -75,11 +87,18 @@ export default function BoardsPage() {
                     </button>
                 </div>
 
-                <div className="projects-header">
-                    <h2 className="projects-title">
-                        Projects
-                    </h2>
+            <div className="projects-header">
+                <h2 className="projects-title">
+                    Projects
+                </h2>
 
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                    }}
+                >
                     <div className="boards-search">
                         <button className="search-button">
                             <Search size={18} />
@@ -92,7 +111,24 @@ export default function BoardsPage() {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
+
+                    <div className="view-switch">
+                        <button
+                            className={view === "grid" ? "active" : ""}
+                            onClick={() => changeView("grid")}
+                        >
+                            <LayoutGrid size={18} />
+                        </button>
+
+                        <button
+                            className={view === "list" ? "active" : ""}
+                            onClick={() => changeView("list")}
+                        >
+                            <List size={18} />
+                        </button>
+                    </div>
                 </div>
+            </div>
 
                 {boards.length === 0 ? (
                     <div className="empty-state">
@@ -109,11 +145,18 @@ export default function BoardsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="boards-grid">
+                    <div 
+                        className={
+                            view === "grid"
+                                ? "boards-grid"
+                                : "boards-list"
+                        }
+                    >
                         {filteredBoards.map((board) => (
                             <BoardCard
                                 key={board.id}
                                 board={board}
+                                view={view}
                             />
                         ))}
                     </div>

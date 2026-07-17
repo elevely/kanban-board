@@ -64,6 +64,11 @@ export default function Header() {
 
                     {open && (
                         <div className="avatar-dropdown">
+
+                            <div className="avatar-user">
+                                {username}
+                            </div>
+
                             <button onClick={logout}>
                                 Exit
                             </button>

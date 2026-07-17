@@ -386,3 +386,41 @@
 
     transform: translateX(0);
 }
+
+.boards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.view-switch {
+    display: flex;
+    background: #0f0f10;
+    border: 1px solid #0f0f10;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.view-switch button {
+    width: 42px;
+    height: 42px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #8b8b92;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: .2s;
+}
+
+.view-switch button:hover {
+    background: #34d399;
+}
+
+.view-switch button.active {
+    background: #34d399;
+    color: #0f0f10;
+}
